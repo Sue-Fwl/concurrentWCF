@@ -8,24 +8,35 @@ using System.Text;
 namespace cloud_testing_service
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
+    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Multiple, InstanceContextMode = InstanceContextMode.Single)]
     public class Service1 : IService1
     {
+        public Queue<string> user = new Queue<string>();
+
+
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
+        public Queue<string> Setconnection2p(string k)
         {
-            if (composite == null)
+            if (user.Count < 4)
             {
-                throw new ArgumentNullException("composite");
+                user.Enqueue(k);
             }
-            if (composite.BoolValue)
+            return user;
+        }
+        public Queue<string> checkPlayers()
+        {
+            if (user.Count == 4)
             {
-                composite.StringValue += "Suffix";
+                //Create game
+                //Addplayer -loop
+                user.Clear();
+                return user;//gameplayer
             }
-            return composite;
+            return user; // null
         }
     }
 }
